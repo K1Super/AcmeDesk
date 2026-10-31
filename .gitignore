@@ -1,0 +1,15 @@
+# 本机运行数据：真实连接配置与操作历史，禁止提交
+data/
+
+# Node 依赖
+node_modules/
+
+# 工具生成的截图缓存
+.screenshots/
+
+# 可能被误放入仓库的凭据与日志
+.env
+.env.*
+*.pem
+*.key
+*.log

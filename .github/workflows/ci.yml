@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["20", "22"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Run tests
+        run: npm test
+
+      - name: Ensure runtime data is not tracked
+        run: |
+          tracked="$(git ls-files data)"
+          if [ -n "$tracked" ]; then
+            echo "data/ must not be tracked by Git:"
+            echo "$tracked"
+            exit 1
+          fi
+
+      - name: Reject key material and tokens
+        run: |
+          tracked="$(git ls-files '*.pem' '*.key' '.env' '.env.*' || true)"
+          if [ -n "$tracked" ]; then
+            echo "Secret-like files must not be tracked:"
+            echo "$tracked"
+            exit 1
+          fi
+          matches="$(git grep -n -I -E -e '-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----|github_pat_[A-Za-z0-9_]{20,}|gh[pousr]_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|xox[baprs]-[A-Za-z0-9-]{10,}' -- . ':!data' || true)"
+          if [ -n "$matches" ]; then
+            echo "Potential secret material found:"
+            echo "$matches"
+            exit 1
+          fi

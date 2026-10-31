@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f4f6f9">
+<title>AcmeDesk · 证书管理平台</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="page">
+  <header class="masthead">
+    <div class="masthead-inner">
+      <nav class="segmented" id="nav" aria-label="主导航">
+        <span class="segmented-thumb" id="segmented-thumb" aria-hidden="true"></span>
+        <a href="#/overview" data-route="overview">总览</a>
+        <a href="#/certificates" data-route="certificates">证书</a>
+        <a href="#/issue" data-route="issue">签发</a>
+        <a href="#/history" data-route="history">记录</a>
+        <a href="#/settings" data-route="settings">设置</a>
+      </nav>
+      <div class="masthead-status">
+        <span class="status-dot" id="connection-dot" data-state="checking"></span>
+        <span id="connection-status">检测连接中</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <header class="page-head">
+      <div>
+        <div class="eyebrow" id="page-eyebrow">OVERVIEW</div>
+        <h1 class="page-title" id="page-title">运行概览</h1>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn-quiet" id="refresh-btn" type="button">刷新</button>
+      </div>
+    </header>
+
+    <div class="app-notice" id="app-notice" hidden></div>
+
+    <section class="view" id="view" aria-live="polite"></section>
+
+    <footer class="page-foot">本地运行 · 127.0.0.1</footer>
+  </main>
+</div>
+
+<div class="modal-backdrop" id="modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-body">
+    <div class="eyebrow">CONFIRM</div>
+    <h2 class="modal-title" id="modal-title"></h2>
+    <p class="modal-body" id="modal-body"></p>
+    <div class="field modal-field" id="modal-field" hidden>
+      <label for="modal-input">输入域名以确认</label>
+      <input type="text" id="modal-input" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-quiet" id="modal-cancel" type="button">取消</button>
+      <button class="btn btn-primary" id="modal-confirm" type="button">确认</button>
+    </div>
+  </div>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>
